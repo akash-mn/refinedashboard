@@ -32,8 +32,6 @@ import { Login } from "pages/login";
 import Home from "pages/dashboard/Home";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { parseJwt } from "utils/parse-jwt";
-// import { Header } from "components/layout/header";
-import { ColorModeContextProvider } from "./contexts/color-mode";
 import { MuiInferencer } from "@refinedev/inferencer/mui";
 import AddProfile from "pages/dashboard/AddProfile";
 
@@ -145,7 +143,7 @@ function App() {
   return (
     <BrowserRouter>
       <RefineKbarProvider>
-        <ColorModeContextProvider>
+       
           <CssBaseline />
           <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
           <RefineSnackbarProvider>
@@ -303,7 +301,6 @@ function App() {
               {/* <DevtoolsPanel /> */}
             </DevtoolsProvider>
           </RefineSnackbarProvider>
-        </ColorModeContextProvider>
       </RefineKbarProvider>
     </BrowserRouter>
   );
