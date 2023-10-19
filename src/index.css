@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+
+html,
+body,
+#root,
+.app{
+  height: 100%;
+  width: 100%;
+  font-family: 'Rubik', sans-serif;
+}
+a {
+    text-decoration: none !important;
+  }
+  
+  .my_profile-bg {
+    width: 340px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+  
+  .my_profile_user-img {
+    border-radius: 100%;
+    margin-left: -64px;
+  }
+  
+  .property_details-img {
+    width: 100%;
+  } 
+  
+   @media screen and (max-width: 900px) {
+    .my_profile-bg {
+        width: 100%;
+        border-radius: 15px;
+    }
+  
+    .my_profile_user-img {
+        margin-left: 0px;
+        margin-top: -64px;
+    }
+  
+    .property_details-img {
+        width: 100%;
+        height: auto;
+    }
+  }
+
+  /* Tab */
+  .tabbed-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+  }
+  
+  .tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tab.active {
+    border-bottom: 5px solid #007bff;
+  }
+  
+  .form {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .tab-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input {
+    margin: 10px 0;
+    padding: 10px;
+  }

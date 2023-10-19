@@ -1,20 +1,33 @@
 import { useLogin } from "@refinedev/core";
 import { useEffect, useRef } from "react";
 
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+import { Box, useMediaQuery } from "@mui/material";
+
 import Typography from "@mui/material/Typography";
-import { ThemedTitleV2 } from "@refinedev/mui";
 
 import { CredentialResponse } from "../interfaces/google";
+import FlexBetween from "components/styledComponents/FlexBetween";
+import Form from "./form";
+import { makeStyles } from "@mui/styles";
+import Logo from "./logo";
+
+const useStyles = makeStyles((theme: any) => ({
+  customBox: {
+    width: "200px",
+    height: "100%",
+    background:
+      "linear-gradient(to bottom right, #4285f4 0%, #4285f4 50%, #f8faff 50%, #f8faff 100%)",
+  },
+}));
 
 // Todo: Update your Google Client ID here
-const GOOGLE_CLIENT_ID =
-  "1041339102270-e1fpe2b6v6u1didfndh7jkjmpcashs4f.apps.googleusercontent.com";
+// const GOOGLE_CLIENT_ID =
+//   "1041339102270-e1fpe2b6v6u1didfndh7jkjmpcashs4f.apps.googleusercontent.com";
 
 export const Login: React.FC = () => {
+  const classes = useStyles();
   const { mutate: login } = useLogin<CredentialResponse>();
-
+  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const GoogleButton = (): JSX.Element => {
     const divRef = useRef<HTMLDivElement>(null);
 
@@ -26,7 +39,7 @@ export const Login: React.FC = () => {
       try {
         window.google.accounts.id.initialize({
           ux_mode: "popup",
-          client_id: GOOGLE_CLIENT_ID,
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
           callback: async (res: CredentialResponse) => {
             if (res.credential) {
               login(res);
@@ -34,7 +47,7 @@ export const Login: React.FC = () => {
           },
         });
         window.google.accounts.id.renderButton(divRef.current, {
-          theme: "filled_blue",
+          theme: "outline",
           size: "medium",
           type: "standard",
         });
@@ -47,40 +60,84 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <Container
-      style={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Box
-        display="flex"
-        gap="36px"
-        justifyContent="center"
-        flexDirection="column"
-      >
-        <ThemedTitleV2
-          collapsed={false}
-          wrapperStyles={{
-            fontSize: "22px",
-            justifyContent: "center",
-          }}
-        />
+    <>
+      {isNonMobileScreens ? (
+        <Box
+          height="100vh"
+          display="flex"
+          alignItems="flex-start"
+          bgcolor="#f8faff"
+        >
+          <Box
+            position="relative"
+            width="50%"
+            height="100%"
+            display="flex"
+            flexDirection="column"
+            bgcolor="#4285f4"
+          >
+            <Logo />
+            <Box
+              position="absolute"
+              bottom="0"
+              right="0"
+              className={classes.customBox}
+            ></Box>
+          </Box>
+          <Box
+            width="50%"
+            height="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+            bgcolor="#f8faff"
+            p="4rem"
+          >
+            <Typography fontWeight="bold" fontSize="32px">
+              Sign In
+            </Typography>
+            <Typography font-size="0.875rem" line-height="1.25rem" mb="0.5rem">
+              Sign in to your account
+            </Typography>
+            <FlexBetween gap="0.5rem">
+              <Box>
+                <GoogleButton />
+              </Box>
+              <Box>
+                <GoogleButton />
+              </Box>
+            </FlexBetween>
+            <Box p="2rem" my="1rem" borderRadius="1.5rem" bgcolor="#ffffff">
+              <Form />
+            </Box>
+          </Box>
+        </Box>
+      ) : (
+        <Box
+          width="100%"
+          height="100%"
+          display="flex"
+          flexDirection="column"
+          alignItems="flex-start"
+          bgcolor="#f8faff"
+          p="1rem"
+        >
+          <Typography fontWeight="bold" fontSize="32px">
+            Sign In
+          </Typography>
+          <Typography font-size="0.875rem" line-height="1.25rem" mb="0.5rem">
+            Sign in to your account
+          </Typography>
+          <Box gap="0.5rem" display="flex" flexDirection="column">
+            <GoogleButton />
 
-        <GoogleButton />
-
-        <Typography align="center" color={"text.secondary"} fontSize="12px">
-          Powered by
-          <img
-            style={{ padding: "0 5px" }}
-            alt="Google"
-            src="https://refine.ams3.cdn.digitaloceanspaces.com/superplate-auth-icons%2Fgoogle.svg"
-          />
-          Google
-        </Typography>
-      </Box>
-    </Container>
+            <GoogleButton />
+          </Box>
+          <Box p="2rem" my="1rem" borderRadius="1.5rem" bgcolor="#ffffff">
+            <Form />
+          </Box>
+        </Box>
+      )}
+    </>
   );
 };

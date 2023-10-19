@@ -1,12 +1,13 @@
-import {
-  AuthBindings,
-  Authenticated,
-  GitHubBanner,
-  Refine,
-} from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
+import { AuthBindings, Authenticated, Refine } from "@refinedev/core";
+import { DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-
+import {
+  DashboardOutlined,
+  LocalOfferOutlined,
+  EventRepeatOutlined,
+  AccountCircleOutlined,
+  SettingsOutlined,
+} from "@mui/icons-material";
 import {
   ErrorComponent,
   notificationProvider,
@@ -18,30 +19,23 @@ import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import routerBindings, {
   CatchAllNavigate,
-  DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 import dataProvider from "@refinedev/simple-rest";
 import axios, { AxiosRequestConfig } from "axios";
+import { ThemedHeaderV2 } from "components/layout/header";
+import { ThemedSiderV2 } from "components/layout/sider";
+import { ThemedTitleV2 } from "components/layout/title";
 import { CredentialResponse } from "interfaces/google";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "pages/blog-posts";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "pages/categories";
 import { Login } from "pages/login";
+import Home from "pages/dashboard/Home";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { parseJwt } from "utils/parse-jwt";
-import { Header } from "./components/header";
+// import { Header } from "components/layout/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
+import { MuiInferencer } from "@refinedev/inferencer/mui";
+import AddProfile from "pages/dashboard/AddProfile";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
@@ -62,21 +56,35 @@ function App() {
     login: async ({ credential }: CredentialResponse) => {
       const profileObj = credential ? parseJwt(credential) : null;
 
+      // Save user to MongoDB
       if (profileObj) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            ...profileObj,
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/users`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: profileObj.email,
             avatar: profileObj.picture,
-          })
-        );
+          }),
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              ...profileObj,
+              avatar: profileObj.picture,
+              userid: data._id,
+            })
+          );
 
-        localStorage.setItem("token", `${credential}`);
-
-        return {
-          success: true,
-          redirectTo: "/",
-        };
+          localStorage.setItem("token", `${credential}`);
+          return {
+            success: true,
+            redirectTo: "/",
+          };
+        } else {
+          return Promise.reject();
+        }
       }
 
       return {
@@ -136,7 +144,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
@@ -144,30 +151,77 @@ function App() {
           <RefineSnackbarProvider>
             <DevtoolsProvider>
               <Refine
-                dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+                dataProvider={dataProvider(`${process.env.REACT_APP_BASE_URL}/api/v1`)}
                 notificationProvider={notificationProvider}
                 routerProvider={routerBindings}
                 authProvider={authProvider}
                 resources={[
                   {
-                    name: "blog_posts",
-                    list: "/blog-posts",
-                    create: "/blog-posts/create",
-                    edit: "/blog-posts/edit/:id",
-                    show: "/blog-posts/show/:id",
+                    name: "dashboard",
+                    options: { label: "Dashboard" },
+                    list: AddProfile,
+                    icon: <DashboardOutlined />,
+                    // create: AddProfile,
+                    // edit: "/blog-posts/edit/:id",
+                    // show: "/blog-posts/show/:id",
                     meta: {
                       canDelete: true,
                     },
                   },
                   {
-                    name: "categories",
-                    list: "/categories",
-                    create: "/categories/create",
-                    edit: "/categories/edit/:id",
-                    show: "/categories/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
+                    name: "Transaction",
+                    list: MuiInferencer,
+                    icon: <LocalOfferOutlined />,
+                    // create: "/categories/create",
+                    // edit: "/categories/edit/:id",
+                    // show: "/categories/show/:id",
+                    // meta: {
+                    //   canDelete: true,
+                    // },
+                  },
+                  {
+                    name: "Schedule",
+                    list: MuiInferencer,
+                    icon: <EventRepeatOutlined />,
+                    // create: "/categories/create",
+                    // edit: "/categories/edit/:id",
+                    // show: "/categories/show/:id",
+                    // meta: {
+                    //   canDelete: true,
+                    // },
+                  },
+                  {
+                    name: "User",
+                    list: MuiInferencer,
+                    icon: <AccountCircleOutlined />,
+                    // create: "/categories/create",
+                    // edit: "/categories/edit/:id",
+                    // show: "/categories/show/:id",
+                    // meta: {
+                    //   canDelete: true,
+                    // },
+                  },
+                  {
+                    name: "Setting",
+                    list: MuiInferencer,
+                    icon: <SettingsOutlined />,
+                    // create: "/categories/create",
+                    // edit: "/categories/edit/:id",
+                    // show: "/categories/show/:id",
+                    // meta: {
+                    //   canDelete: true,
+                    // },
+                  },
+                  {
+                    name: "Setting",
+                    list: MuiInferencer,
+                    icon: <SettingsOutlined />,
+                    // create: "/categories/create",
+                    // edit: "/categories/edit/:id",
+                    // show: "/categories/show/:id",
+                    // meta: {
+                    //   canDelete: true,
+                    // },
                   },
                 ]}
                 options={{
@@ -183,8 +237,15 @@ function App() {
                         key="authenticated-inner"
                         fallback={<CatchAllNavigate to="/login" />}
                       >
+                        {/* <ThemedLayoutV2
+                          Header={() => <ThemedHeaderV2 isSticky={true} />}
+                        >
+                          <Outlet />
+                        </ThemedLayoutV2> */}
                         <ThemedLayoutV2
-                          Header={() => <Header isSticky={true} />}
+                          Header={ThemedHeaderV2}
+                          Sider={ThemedSiderV2}
+                          Title={ThemedTitleV2}
                         >
                           <Outlet />
                         </ThemedLayoutV2>
@@ -193,20 +254,26 @@ function App() {
                   >
                     <Route
                       index
-                      element={<NavigateToResource resource="blog_posts" />}
+                      element={<NavigateToResource resource="dashboard" />}
                     />
-                    <Route path="/blog-posts">
+                    <Route path="/dashboard">
+                      <Route index element={<Home />} />
+                      <Route path="/dashboard" element={<AddProfile/>} />
+                      {/* <Route path="create" element={<BlogPostCreate />} />
+                      <Route path="edit/:id" element={<BlogPostEdit />} />
+                      <Route path="show/:id" element={<BlogPostShow />} /> */}
+                    </Route>
+                    {/* <Route
+                      index
+                      element={<NavigateToResource resource="blog_posts" />}
+                    /> */}
+                    {/* <Route path="/blog-posts">
                       <Route index element={<BlogPostList />} />
                       <Route path="create" element={<BlogPostCreate />} />
                       <Route path="edit/:id" element={<BlogPostEdit />} />
                       <Route path="show/:id" element={<BlogPostShow />} />
-                    </Route>
-                    <Route path="/categories">
-                      <Route index element={<CategoryList />} />
-                      <Route path="create" element={<CategoryCreate />} />
-                      <Route path="edit/:id" element={<CategoryEdit />} />
-                      <Route path="show/:id" element={<CategoryShow />} />
-                    </Route>
+                    </Route> */}
+
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
                   <Route
@@ -225,9 +292,15 @@ function App() {
 
                 <RefineKbar />
                 <UnsavedChangesNotifier />
-                <DocumentTitleHandler />
+                {/* <ThemedLayoutV2
+                  Header={ThemedHeaderV2}
+                  Sider={ThemedSiderV2}
+                  Title={ThemedTitleV2}
+                >
+                </ThemedLayoutV2> */}
+                {/* <DocumentTitleHandler /> */}
               </Refine>
-              <DevtoolsPanel />
+              {/* <DevtoolsPanel /> */}
             </DevtoolsProvider>
           </RefineSnackbarProvider>
         </ColorModeContextProvider>
