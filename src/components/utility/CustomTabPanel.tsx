@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   tab: {
-    padding: "10px 20px",
+    padding: "10px 1px",
     cursor: "pointer",
     borderBottom: "5px solid transparent",
   },
@@ -34,9 +34,9 @@ interface CustomTabPanelProps {
   handleClose: () => void;
 }
 
-function CustomTabPanel(props:CustomTabPanelProps) {
-  const navigate=useNavigate();
-  const isNonMobile = useMediaQuery("(min-width:600px)");
+function CustomTabPanel(props: CustomTabPanelProps) {
+  const navigate = useNavigate();
+  const isNonMobile = useMediaQuery("(min-width:900px)");
   const classes = useStyles();
   const { data: user } = useGetIdentity<{
     email: string;
@@ -72,9 +72,9 @@ function CustomTabPanel(props:CustomTabPanelProps) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-     await onFinish({ ...formData, id: user?.userid });
-     handleCloseModal();
-     navigate('/');
+    await onFinish({ ...formData, id: user?.userid });
+    handleCloseModal();
+    navigate("/");
   };
 
   return (
@@ -134,12 +134,19 @@ function CustomTabPanel(props:CustomTabPanelProps) {
                   placeholder="Eg.Jhon Doe"
                   name="name"
                   sx={{
-                    "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        padding: "8px",
-                        width: 300,
-                        borderRadius: "8px",
-                      },
+                    // "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
+                    //   {
+                    //     padding: "8px",
+                    //     width: `${isNonMobile ? "300px" : "250px"}`,
+                    //     borderRadius: "8px",
+                    //   },
+                    "& .css-1v4ccyo":
+                    {
+                      width: `${isNonMobile ? "300px" : "250px"}`,
+                      borderRadius: "8px",
+                      height: "2rem",
+                    },
+                    
                   }}
                   onChange={(e) => onchange(e)}
                 />
@@ -152,12 +159,19 @@ function CustomTabPanel(props:CustomTabPanelProps) {
                   placeholder="Eg.Jhon@xyz"
                   name="password"
                   sx={{
-                    "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        padding: "8px",
-                        width: 300,
-                        borderRadius: "8px",
-                      },
+                    // "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
+                    //   {
+                    //     padding: "8px",
+                    //     width: `${isNonMobile ? "300px" : "250px"}`,
+                    //     borderRadius: "8px",
+                    //   },
+                    "& .css-1v4ccyo":
+                    {
+                      width: `${isNonMobile ? "300px" : "250px"}`,
+                      borderRadius: "8px",
+                      height: "2rem",
+                    },
+                    
                   }}
                   onChange={(e) => onchange(e)}
                 />
@@ -168,12 +182,19 @@ function CustomTabPanel(props:CustomTabPanelProps) {
                   placeholder="Eg.9123456789"
                   name="phoneNumber"
                   sx={{
-                    "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        padding: "8px",
-                        width: 300,
-                        borderRadius: "8px",
-                      },
+                    // "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
+                    //   {
+                    //     padding: "8px",
+                    //     width: `${isNonMobile ? "300px" : "250px"}`,
+                    //     borderRadius: "8px",
+                    //   },
+                    "& .css-1v4ccyo":
+                    {
+                      width: `${isNonMobile ? "300px" : "250px"}`,
+                      borderRadius: "8px",
+                      height: "2rem",
+                    },
+                    
                   }}
                   onChange={(e) => onchange(e)}
                 />
@@ -210,43 +231,54 @@ function CustomTabPanel(props:CustomTabPanelProps) {
             <Stack direction="column" gap={2}>
               <Box mt={2} px={1}>
                 <InputLabel sx={{ color: "#2f3542" }}>
-                  Instagram Link(Optional)
+                  Instagram Link*
                 </InputLabel>
                 <TextField
                   placeholder="Eg. ..instagram.com/username"
                   name="instagram"
                   sx={{
-                    "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        padding: "8px",
-                        width: 300,
-                        borderRadius: "8px",
-                      },
+                    // "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
+                    //   {
+                    //     padding: "8px",
+                    //     width: `${isNonMobile ? "300px" : "250px"}`,
+                    //     borderRadius: "8px",
+                    //   },
+                    "& .css-1v4ccyo":
+                    {
+                      width: `${isNonMobile ? "300px" : "250px"}`,
+                      borderRadius: "8px",
+                      height: "2rem",
+                    },
+                    
                   }}
                   onChange={(e) => onchange(e)}
                 />
               </Box>
               <Box px={1}>
-                <InputLabel sx={{ color: "#2f3542" }}>
-                  Youtube Link(Optional)
-                </InputLabel>
+                <InputLabel sx={{ color: "#2f3542" }}>Youtube Link*</InputLabel>
                 <TextField
                   placeholder="Eg. ..youtube.com/username"
                   name="youtube"
                   sx={{
-                    "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        padding: "8px",
-                        width: 300,
-                        borderRadius: "8px",
-                      },
+                    // "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
+                    //   {
+                    //     padding: "8px",
+                    //     width: `${isNonMobile ? "300px" : "250px"}`,
+                    //     borderRadius: "8px",
+                    //   },
+                    "& .css-1v4ccyo":
+                    {
+                      width: `${isNonMobile ? "300px" : "250px"}`,
+                      borderRadius: "8px",
+                      height: "2rem",
+                    },
                   }}
                   onChange={(e) => onchange(e)}
                 />
               </Box>
               <Box
                 display="flex"
-                justifyContent={isNonMobile ? "end" : "center"}
+                justifyContent={isNonMobile ? "end" : "end"}
                 mt="20px"
                 alignItems="center"
                 py={1}

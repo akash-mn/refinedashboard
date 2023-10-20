@@ -1,8 +1,9 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography,useMediaQuery } from "@mui/material";
 import { ProductChartProps } from "interfaces/home";
 import ReactApexChart from "react-apexcharts";
 
 function TopProducts({ labels, series, colors }: ProductChartProps) {
+  const isNonMobile = useMediaQuery("(min-width:900px)");
   return (
     <Box
       p={4}
@@ -41,7 +42,7 @@ function TopProducts({ labels, series, colors }: ProductChartProps) {
             offsetY: 20,
           },
           labels,
-          dataLabels: { enabled: true,  offsetY: 20 },
+          dataLabels: { enabled: true,  offsetY: 10 },
           fill: {
             type: "gradient",
             gradient: {
@@ -61,7 +62,7 @@ function TopProducts({ labels, series, colors }: ProductChartProps) {
         }}
         series={series}
         type="donut"
-        width={380}
+        width={isNonMobile ? 380 : 330}
       />
     </Box>
   );
