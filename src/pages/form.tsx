@@ -8,7 +8,6 @@ import {
   InputLabel,
 } from "@mui/material";
 
-
 const Form: React.FC = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [email, setEmail] = useState("");
@@ -27,7 +26,12 @@ const Form: React.FC = () => {
   };
 
   return (
-    <Box width={isNonMobile ? "100%": "93%"} display="flex" flexDirection="column" gap="1rem">
+    <Box
+      width={isNonMobile ? "100%" : "93%"}
+      display="flex"
+      flexDirection="column"
+      gap="1rem"
+    >
       <InputLabel sx={{ color: "#2f3542" }}>Email Address</InputLabel>
       <TextField
         // label="Email"
@@ -39,14 +43,22 @@ const Form: React.FC = () => {
         // helperText={touched.email && errors.email}
         // className={classes.textField}
         sx={{
-          "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
-            padding: "4px",
+          // "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
+          //   padding: "4px",
+          //   backgroundColor: "#F0F0F0",
+          //   borderRadius: "8px",
+          // },
+          "& .css-1v4ccyo": {
+            height: "2rem",
+          },
+          "& .css-igs3ac": {
+            border: "none",
             backgroundColor: "#F0F0F0",
             borderRadius: "8px",
           },
-          "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-            border: "none",
-          },
+          // "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+          //   border: "none",
+          // },
         }}
       />
       <InputLabel sx={{ color: "#2f3542" }}>Password</InputLabel>
@@ -61,18 +73,26 @@ const Form: React.FC = () => {
         // helperText={touched.password && errors.password}
         // className={classes.textField}
         sx={{
-          "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
-            padding: "4px",
+          // "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
+          //   padding: "4px",
+          //   backgroundColor: "#F0F0F0",
+          //   borderRadius: "8px",
+          // },
+          // "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
+          //   border: "none",
+          // },
+          "& .css-1v4ccyo": {
+            height: "2rem",
+          },
+          "& .css-igs3ac": {
+            border: "none",
             backgroundColor: "#F0F0F0",
             borderRadius: "8px",
-          },
-          "& .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-            border: "none",
           },
         }}
       />
       <Box>
-      <Typography color="#4285f4">Forgot password?</Typography>
+        <Typography color="#4285f4">Forgot password?</Typography>
         <Button
           fullWidth
           type="submit"

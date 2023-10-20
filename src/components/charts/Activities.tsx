@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, useMediaQuery } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import ReactApexChart from "react-apexcharts";
 import { TotalRevenueSeries, TotalRevenueOptions } from "./chart.config";
 
